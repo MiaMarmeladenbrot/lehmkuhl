@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Lehmkuhl Navigator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Home Screen -->
+  <div id="home-screen" class="screen active">
+    <div class="home-content">
+      <div class="logo">
+        <div class="anchor-icon">
+          <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="5" r="3"/>
+            <line x1="12" y1="8" x2="12" y2="21"/>
+            <path d="M5 12H2a10 10 0 0 0 20 0h-3"/>
+          </svg>
+        </div>
+        <h1>Lehmkuhl Navigator</h1>
+        <p class="subtitle">Master the vocabulary of the Statsraad Lehmkuhl. Choose a category to begin your maritime learning journey.</p>
+      </div>
+
+      <div id="category-grid" class="category-grid"></div>
+
+      <footer class="site-footer">
+        <div class="footer-brand">
+          <svg class="footer-anchor" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="5" r="3"/>
+            <line x1="12" y1="8" x2="12" y2="21"/>
+            <path d="M5 12H2a10 10 0 0 0 20 0h-3"/>
+          </svg>
+          <span class="footer-title">Statsraad Lehmkuhl</span>
+        </div>
+        <p class="footer-tagline">Learn the language of the sea</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Card View Screen -->
+  <div id="card-screen" class="screen">
+    <div class="card-header">
+      <button id="card-back-btn" class="back-btn" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+      </button>
+      <div class="header-info">
+        <h2 id="card-category-label"></h2>
+        <span id="card-term-count" class="term-count-label"></span>
+      </div>
+      <button id="home-btn" class="home-btn" aria-label="Home">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="card-container">
+      <div id="flashcard" class="flashcard">
+        <div class="card-face card-front">
+          <span class="card-label">TERM</span>
+          <span id="card-term" class="card-term"></span>
+          <span class="card-hint">Click to reveal definition</span>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-label">DEFINITION</span>
+          <span id="card-definition" class="card-definition"></span>
+          <span class="card-hint">Click to see term</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <p id="card-position" class="card-position"></p>
+      <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="card-nav">
+      <button id="prev-btn" class="nav-btn nav-btn-outline" aria-label="Previous card">
+        Previous
+      </button>
+      <button id="next-btn" class="nav-btn nav-btn-filled" aria-label="Next card">
+        Next
+      </button>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
