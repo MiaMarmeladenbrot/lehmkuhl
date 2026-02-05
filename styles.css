@@ -743,3 +743,139 @@ h1 {
     padding-bottom: calc(2rem + env(safe-area-inset-bottom));
   }
 }
+
+/* Ship Quiz Styles */
+#ship-quiz-screen {
+  background: var(--bg);
+}
+
+.ship-quiz-container {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.ship-diagram-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.ship-diagram-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-inputs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.quiz-input {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  width: 100px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.5rem;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text);
+  text-align: center;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.quiz-input:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(26, 58, 74, 0.15);
+}
+
+.quiz-input.correct {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.quiz-input.incorrect {
+  border-color: var(--red);
+  background: rgba(201, 74, 74, 0.15);
+}
+
+.quiz-input::placeholder {
+  color: var(--text-muted);
+  font-size: 0.65rem;
+}
+
+.quiz-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem 2rem;
+  flex-wrap: wrap;
+}
+
+.quiz-score {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  min-width: 100px;
+  text-align: center;
+}
+
+/* Responsive quiz styles */
+@media (max-width: 900px) {
+  .quiz-input {
+    width: 100px;
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .ship-quiz-container {
+    padding: 0.5rem;
+  }
+
+  .quiz-input {
+    width: 70px;
+    font-size: 0.5rem;
+    padding: 0.15rem 0.25rem;
+  }
+
+  .quiz-input::placeholder {
+    font-size: 0.45rem;
+  }
+
+  .quiz-controls {
+    padding: 0.75rem 1rem 1.5rem;
+    gap: 0.5rem;
+  }
+
+  .quiz-controls .nav-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    min-width: auto;
+  }
+
+  .quiz-score {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}

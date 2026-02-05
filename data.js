@@ -903,3 +903,110 @@ function shuffle(array) {
   }
   return shuffled;
 }
+
+// Ship Diagram Quiz Data
+// Positions are percentages for responsive positioning
+// Based on the ship diagram from the handbook (page 20)
+// Labels are positioned where the text appears in the original diagram
+const shipDiagramQuiz = {
+  labels: [
+    // Top-left staysails (stacked vertically)
+    {
+      id: "mizzen-topgallant-staysail",
+      answer: "Mizzen topgallant staysail",
+      x: 40,
+      y: 8,
+    },
+    {
+      id: "mizzen-topmast-staysail",
+      answer: "Mizzen topmast staysail",
+      x: 40,
+      y: 10,
+    },
+    { id: "mizzen-staysail", answer: "Mizzen staysail", x: 40, y: 12 },
+
+    // Mast labels at top
+    { id: "mainmast", answer: "Mainmast", x: 52, y: 11 },
+    { id: "foremast", answer: "Foremast", x: 70, y: 11 },
+
+    // Main staysails (stacked, between mainmast and foremast)
+    // todo
+    { id: "main-royal-staysail", answer: "Main royal staysail", x: 60, y: 9 },
+    {
+      id: "main-topgallant-staysail",
+      answer: "Main topgallant staysail",
+      x: 58,
+      y: 11,
+    },
+    {
+      id: "main-topmast-staysail",
+      answer: "Main topmast staysail",
+      x: 58,
+      y: 14,
+    },
+
+    // Mizzenmast label
+    { id: "mizzenmast", answer: "Mizzenmast", x: 39, y: 19 },
+
+    // Mainmast sails (labels on the sails)
+    { id: "main-royal", answer: "Main royal", x: 52, y: 21 },
+    {
+      id: "main-topgallant-sail",
+      answer: "Main topgallant sail",
+      x: 52,
+      y: 31,
+    },
+    { id: "main-upper-topsail", answer: "Main upper topsail", x: 52, y: 43 },
+    { id: "main-lower-topsail", answer: "Main lower topsail", x: 52, y: 52 },
+    { id: "main-course", answer: "Main course (mainsail)", x: 52, y: 63 },
+
+    // Foremast sails (labels on the sails)
+    { id: "fore-royal", answer: "Fore royal", x: 70, y: 21 },
+    {
+      id: "fore-topgallant-sail",
+      answer: "Fore topgallant sail",
+      x: 70,
+      y: 32,
+    },
+    { id: "fore-upper-topsail", answer: "Fore upper topsail", x: 70, y: 44 },
+    { id: "fore-lower-topsail", answer: "Fore lower topsail", x: 70, y: 53 },
+    { id: "fore-course", answer: "Fore course", x: 70, y: 64 },
+
+    // Mizzen sails (left side)
+    { id: "mizzen-gaff-topsail", answer: "Mizzen gaff topsail", x: 22, y: 40 },
+    { id: "mizzen-sail", answer: "Mizzen sail", x: 22, y: 44 },
+
+    // Jibs (right side labels, stacked)
+    { id: "flying-jib", answer: "Flying jib", x: 95, y: 52 },
+    { id: "outer-jib", answer: "Outer jib", x: 95, y: 56 },
+    { id: "inner-jib", answer: "Inner jib", x: 95, y: 59 },
+    {
+      id: "fore-topmast-staysail",
+      answer: "Fore topmast staysail",
+      x: 95,
+      y: 62,
+    },
+
+    // Bowsprit (right side)
+    { id: "bowsprit", answer: "Bowsprit", x: 94, y: 73 },
+
+    // Deck areas (bottom labels)
+    { id: "poop", answer: "Poop", x: 31, y: 85 },
+    { id: "chart-house", answer: "Chart house", x: 38, y: 85 },
+    {
+      id: "engine-room-skylight",
+      answer: "Engine room skylight",
+      x: 44,
+      y: 85,
+    },
+    { id: "half-deck", answer: "Half deck", x: 50, y: 85 },
+    { id: "main-deck", answer: "Main deck", x: 58.5, y: 84 },
+    { id: "companionways", answer: "Companionways", x: 58.5, y: 87 },
+    { id: "galley", answer: "Galley", x: 67, y: 85 },
+    { id: "forecastle", answer: "Forecastle", x: 83, y: 85 },
+  ],
+};
+
+function getShipDiagramQuiz() {
+  return shipDiagramQuiz;
+}

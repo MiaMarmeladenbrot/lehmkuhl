@@ -92,6 +92,39 @@
     </div>
   </div>
 
+  <!-- Ship Quiz Screen -->
+  <div id="ship-quiz-screen" class="screen">
+    <div class="card-header">
+      <button id="quiz-back-btn" class="back-btn" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+      </button>
+      <div class="header-info">
+        <h2>Ship Diagram Quiz</h2>
+        <span id="quiz-term-count" class="term-count-label">Label the ship parts</span>
+      </div>
+      <button id="quiz-home-btn" class="home-btn" aria-label="Home">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ship-quiz-container">
+      <div class="ship-diagram-wrapper">
+        <img src="ship-diagram.png" alt="Ship diagram" class="ship-diagram-img">
+        <div id="quiz-inputs" class="quiz-inputs"></div>
+      </div>
+    </div>
+
+    <div class="quiz-controls">
+      <button id="check-answers-btn" class="nav-btn nav-btn-filled">Check Answers</button>
+      <button id="reset-quiz-btn" class="nav-btn nav-btn-outline">Reset</button>
+      <span id="quiz-score" class="quiz-score"></span>
+    </div>
+  </div>
+
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>

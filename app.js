@@ -3,13 +3,15 @@ const state = {
   currentScreen: 'home',
   currentCards: [],
   currentIndex: 0,
-  isFlipped: false
+  isFlipped: false,
+  quizAnswers: {}
 };
 
 // DOM Elements
 const screens = {
   home: document.getElementById('home-screen'),
-  card: document.getElementById('card-screen')
+  card: document.getElementById('card-screen'),
+  shipQuiz: document.getElementById('ship-quiz-screen')
 };
 
 const elements = {
@@ -24,11 +26,20 @@ const elements = {
   cardPosition: document.getElementById('card-position'),
   progressFill: document.getElementById('progress-fill'),
   prevBtn: document.getElementById('prev-btn'),
-  nextBtn: document.getElementById('next-btn')
+  nextBtn: document.getElementById('next-btn'),
+  // Ship quiz elements
+  quizBackBtn: document.getElementById('quiz-back-btn'),
+  quizHomeBtn: document.getElementById('quiz-home-btn'),
+  quizInputs: document.getElementById('quiz-inputs'),
+  checkAnswersBtn: document.getElementById('check-answers-btn'),
+  resetQuizBtn: document.getElementById('reset-quiz-btn'),
+  quizScore: document.getElementById('quiz-score'),
+  quizTermCount: document.getElementById('quiz-term-count')
 };
 
 // Category icons (SVG paths)
 const categoryIcons = {
+  "Ship Diagram Quiz": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20l2-4h16l2 4"/><path d="M4 16l2-4h12l2 4"/><path d="M12 4v8"/><path d="M8 8h8"/><circle cx="18" cy="6" r="2"/><path d="M18 8v4"/></svg>`,
   "Random 20": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="8" height="8" rx="1"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="18" cy="6" r="1" fill="currentColor"/><circle cx="16" cy="4" r="1" fill="currentColor"/><circle cx="20" cy="8" r="1" fill="currentColor"/><circle cx="4" cy="16" r="1" fill="currentColor"/><circle cx="8" cy="20" r="1" fill="currentColor"/><circle cx="18" cy="18" r="1" fill="currentColor"/></svg>`,
   "The Ship": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20l2-4h16l2 4"/><path d="M4 16l2-4h12l2 4"/><path d="M12 4v8"/><path d="M8 8h8"/></svg>`,
   "Sails": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 20h16L12 2z"/><line x1="12" y1="2" x2="12" y2="20"/></svg>`,
@@ -51,6 +62,12 @@ function init() {
   elements.flashcard.addEventListener('click', flipCard);
   elements.prevBtn.addEventListener('click', prevCard);
   elements.nextBtn.addEventListener('click', nextCard);
+
+  // Ship quiz event listeners
+  elements.quizBackBtn.addEventListener('click', () => showScreen('home'));
+  elements.quizHomeBtn.addEventListener('click', () => showScreen('home'));
+  elements.checkAnswersBtn.addEventListener('click', checkQuizAnswers);
+  elements.resetQuizBtn.addEventListener('click', resetQuiz);
 
   // Keyboard navigation
   document.addEventListener('keydown', handleKeyboard);
@@ -88,21 +105,25 @@ function populateCategories() {
     elements.categoryGrid.appendChild(col);
   });
 
-  // Add Random 20 card first (to column 0)
-  const randomCard = document.createElement('div');
-  randomCard.className = 'category-card category-card-featured';
-  randomCard.addEventListener('click', startRandomMode);
-  randomCard.innerHTML = `
-    <div class="category-card-header">
-      <div class="category-icon category-icon-featured">${categoryIcons["Random 20"]}</div>
-      <h3 class="category-card-title">Random 20</h3>
-    </div>
-    <span class="category-term-count">${allTerms.length} total</span>
-    <p class="category-description">Test yourself with 20 randomly selected terms from all categories.</p>
-  `;
-  columns[0].appendChild(randomCard);
-  let cardIndex = 1; // Start at 1 since Random card is index 0
+  let cardIndex = 0;
 
+  // Add Ship Diagram Quiz card first
+  const quizData = getShipDiagramQuiz();
+  const shipQuizCard = document.createElement('div');
+  shipQuizCard.className = 'category-card category-card-featured';
+  shipQuizCard.addEventListener('click', startShipQuiz);
+  shipQuizCard.innerHTML = `
+    <div class="category-card-header">
+      <div class="category-icon category-icon-featured">${categoryIcons["Ship Diagram Quiz"]}</div>
+      <h3 class="category-card-title">Ship Diagram Quiz</h3>
+    </div>
+    <span class="category-term-count">${quizData.labels.length} labels</span>
+    <p class="category-description">Label the parts of the ship on an interactive diagram.</p>
+  `;
+  columns[cardIndex % 3].appendChild(shipQuizCard);
+  cardIndex++;
+
+  // Add regular category cards
   groups.forEach(group => {
     const totalTerms = group.categories.reduce((sum, cat) => sum + getTerms(cat).length, 0);
 
@@ -185,6 +206,20 @@ function populateCategories() {
     columns[cardIndex % 3].appendChild(card);
     cardIndex++;
   });
+
+  // Add Random 20 card at the end
+  const randomCard = document.createElement('div');
+  randomCard.className = 'category-card category-card-featured';
+  randomCard.addEventListener('click', startRandomMode);
+  randomCard.innerHTML = `
+    <div class="category-card-header">
+      <div class="category-icon category-icon-featured">${categoryIcons["Random 20"]}</div>
+      <h3 class="category-card-title">Random 20</h3>
+    </div>
+    <span class="category-term-count">${allTerms.length} total</span>
+    <p class="category-description">Test yourself with 20 randomly selected terms from all categories.</p>
+  `;
+  columns[cardIndex % 3].appendChild(randomCard);
 }
 
 // Learning Modes
@@ -290,6 +325,12 @@ function animateCardTransition(direction, callback) {
 
 // Keyboard Navigation
 function handleKeyboard(e) {
+  // Handle Escape to go home from any screen
+  if (e.key === 'Escape' && state.currentScreen !== 'home') {
+    showScreen('home');
+    return;
+  }
+
   if (state.currentScreen !== 'card') return;
 
   switch (e.key) {
@@ -305,9 +346,6 @@ function handleKeyboard(e) {
     case 'Enter':
       e.preventDefault();
       flipCard();
-      break;
-    case 'Escape':
-      showScreen('home');
       break;
   }
 }
@@ -351,6 +389,96 @@ function setupSwipeDetection() {
         }
       }
     }
+  }
+}
+
+// Ship Diagram Quiz Functions
+function startShipQuiz() {
+  initShipQuiz();
+  showScreen('shipQuiz');
+}
+
+function initShipQuiz() {
+  const quizData = getShipDiagramQuiz();
+  elements.quizInputs.innerHTML = '';
+  state.quizAnswers = {};
+  elements.quizScore.textContent = '';
+  elements.quizTermCount.textContent = `${quizData.labels.length} labels to identify`;
+
+  quizData.labels.forEach(label => {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'quiz-input';
+    input.id = `quiz-${label.id}`;
+    input.placeholder = '?';
+    input.style.left = `${label.x}%`;
+    input.style.top = `${label.y}%`;
+    input.dataset.answer = label.answer;
+    input.autocomplete = 'off';
+    input.spellcheck = false;
+
+    input.addEventListener('input', () => {
+      // Remove correct/incorrect classes when user types
+      input.classList.remove('correct', 'incorrect');
+    });
+
+    elements.quizInputs.appendChild(input);
+  });
+}
+
+function normalizeAnswer(str) {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, ' ')
+    .replace(/[()]/g, '');
+}
+
+function checkQuizAnswers() {
+  const inputs = elements.quizInputs.querySelectorAll('.quiz-input');
+  let correct = 0;
+  let total = inputs.length;
+
+  inputs.forEach(input => {
+    const userAnswer = normalizeAnswer(input.value);
+    const correctAnswer = normalizeAnswer(input.dataset.answer);
+
+    // Also check without parenthetical content for answers like "Main course (mainsail)"
+    const correctAnswerBase = correctAnswer.split(' ').filter(word => !word.startsWith('(')).join(' ');
+
+    // Check if user answer matches either the full answer or abbreviated versions
+    const isCorrect = userAnswer === correctAnswer ||
+                      userAnswer === correctAnswerBase ||
+                      (correctAnswer.includes('mainsail') && userAnswer === 'main course') ||
+                      (correctAnswer.includes('mainsail') && userAnswer === 'mainsail');
+
+    input.classList.remove('correct', 'incorrect');
+
+    if (userAnswer === '') {
+      input.classList.add('incorrect');
+    } else if (isCorrect) {
+      input.classList.add('correct');
+      correct++;
+    } else {
+      input.classList.add('incorrect');
+    }
+  });
+
+  const percentage = Math.round((correct / total) * 100);
+  elements.quizScore.textContent = `${correct}/${total} correct (${percentage}%)`;
+}
+
+function resetQuiz() {
+  const inputs = elements.quizInputs.querySelectorAll('.quiz-input');
+  inputs.forEach(input => {
+    input.value = '';
+    input.classList.remove('correct', 'incorrect');
+  });
+  elements.quizScore.textContent = '';
+
+  // Focus first input
+  if (inputs.length > 0) {
+    inputs[0].focus();
   }
 }
 
