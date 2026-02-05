@@ -915,15 +915,15 @@ const shipDiagramQuiz = {
       id: "mizzen-topgallant-staysail",
       answer: "Mizzen topgallant staysail",
       x: 40,
-      y: 8,
+      y: 9,
     },
     {
       id: "mizzen-topmast-staysail",
       answer: "Mizzen topmast staysail",
       x: 40,
-      y: 10,
+      y: 11,
     },
-    { id: "mizzen-staysail", answer: "Mizzen staysail", x: 40, y: 12 },
+    { id: "mizzen-staysail", answer: "Mizzen staysail", x: 40, y: 13 },
 
     // Mast labels at top
     { id: "mainmast", answer: "Mainmast", x: 52, y: 11 },
@@ -949,16 +949,16 @@ const shipDiagramQuiz = {
     { id: "mizzenmast", answer: "Mizzenmast", x: 39, y: 19 },
 
     // Mainmast sails (labels on the sails)
-    { id: "main-royal", answer: "Main royal", x: 52, y: 21 },
+    { id: "main-royal", answer: "Main royal", x: 53, y: 21 },
     {
       id: "main-topgallant-sail",
       answer: "Main topgallant sail",
-      x: 52,
+      x: 53,
       y: 31,
     },
-    { id: "main-upper-topsail", answer: "Main upper topsail", x: 52, y: 43 },
-    { id: "main-lower-topsail", answer: "Main lower topsail", x: 52, y: 52 },
-    { id: "main-course", answer: "Main course (mainsail)", x: 52, y: 63 },
+    { id: "main-upper-topsail", answer: "Main upper topsail", x: 53, y: 43 },
+    { id: "main-lower-topsail", answer: "Main lower topsail", x: 53, y: 52 },
+    { id: "main-course", answer: "Main course (mainsail)", x: 53, y: 64 },
 
     // Foremast sails (labels on the sails)
     { id: "fore-royal", answer: "Fore royal", x: 70, y: 21 },
@@ -968,13 +968,13 @@ const shipDiagramQuiz = {
       x: 70,
       y: 32,
     },
-    { id: "fore-upper-topsail", answer: "Fore upper topsail", x: 70, y: 44 },
-    { id: "fore-lower-topsail", answer: "Fore lower topsail", x: 70, y: 53 },
+    { id: "fore-upper-topsail", answer: "Fore upper topsail", x: 70, y: 43 },
+    { id: "fore-lower-topsail", answer: "Fore lower topsail", x: 70, y: 52 },
     { id: "fore-course", answer: "Fore course", x: 70, y: 64 },
 
     // Mizzen sails (left side)
     { id: "mizzen-gaff-topsail", answer: "Mizzen gaff topsail", x: 22, y: 40 },
-    { id: "mizzen-sail", answer: "Mizzen sail", x: 22, y: 44 },
+    { id: "mizzen-sail", answer: "Mizzen sail", x: 22, y: 43 },
 
     // Jibs (right side labels, stacked)
     { id: "flying-jib", answer: "Flying jib", x: 95, y: 52 },
