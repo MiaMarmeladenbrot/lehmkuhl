@@ -96,16 +96,10 @@ h1 {
   line-height: 1.6;
 }
 
-/* Category Grid - using columns for independent card heights */
+/* Category Grid */
 .category-grid {
-  display: flex;
-  gap: 1.25rem;
-}
-
-.category-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
 }
 
@@ -668,12 +662,8 @@ h1 {
 
 /* Responsive */
 @media (max-width: 900px) {
-  .category-column {
-    flex: 1 1 calc(50% - 0.625rem);
-  }
-
-  .category-column:nth-child(3) {
-    flex: 1 1 100%;
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -696,13 +686,8 @@ h1 {
   }
 
   .category-grid {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1rem;
-  }
-
-  .category-column {
-    flex: none;
-    width: 100%;
   }
 
   .card-container {
@@ -792,7 +777,7 @@ h1 {
   font-family: inherit;
   border: 1px solid var(--border);
   border-radius: 4px;
-  background: rgba(255, 255, 255);
+  background: white;
   color: var(--text);
   text-align: center;
   transition:

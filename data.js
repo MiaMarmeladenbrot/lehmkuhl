@@ -451,7 +451,7 @@ const vocabulary = {
     {
       term: "Athwartship",
       definition:
-        "Across the ship; from one side of a vessel to the other, perpendicular to the centerline and the direction of trave",
+        "Across the ship; from one side of a vessel to the other, perpendicular to the centerline and the direction of travel",
     },
   ],
   "Wind & Water": [
@@ -873,11 +873,6 @@ function getCategoryGroups() {
   return categoryGroups;
 }
 
-// Get all categories
-function getCategories() {
-  return Object.keys(vocabulary);
-}
-
 // Get terms for a category
 function getTerms(category) {
   return vocabulary[category] || [];
@@ -930,7 +925,6 @@ const shipDiagramQuiz = {
     { id: "foremast", answer: "Foremast", x: 70, y: 11 },
 
     // Main staysails (stacked, between mainmast and foremast)
-    // todo
     { id: "main-royal-staysail", answer: "Main royal staysail", x: 60, y: 9 },
     {
       id: "main-topgallant-staysail",

@@ -1,10 +1,11 @@
+// Requires data.js to be loaded first (getCategoryGroups, getTerms, getAllTerms, shuffle, getShipDiagramQuiz)
+
 // App State
 const state = {
   currentScreen: 'home',
   currentCards: [],
   currentIndex: 0,
-  isFlipped: false,
-  quizAnswers: {}
+  isFlipped: false
 };
 
 // DOM Elements
@@ -94,19 +95,6 @@ function populateCategories() {
   const allTerms = getAllTerms();
   elements.categoryGrid.innerHTML = '';
 
-  // Create 3 columns for independent card heights
-  const columns = [
-    document.createElement('div'),
-    document.createElement('div'),
-    document.createElement('div')
-  ];
-  columns.forEach(col => {
-    col.className = 'category-column';
-    elements.categoryGrid.appendChild(col);
-  });
-
-  let cardIndex = 0;
-
   // Add Ship Diagram Quiz card first
   const quizData = getShipDiagramQuiz();
   const shipQuizCard = document.createElement('div');
@@ -120,8 +108,7 @@ function populateCategories() {
     <span class="category-term-count">${quizData.labels.length} labels</span>
     <p class="category-description">Label the parts of the ship on an interactive diagram.</p>
   `;
-  columns[cardIndex % 3].appendChild(shipQuizCard);
-  cardIndex++;
+  elements.categoryGrid.appendChild(shipQuizCard);
 
   // Add regular category cards
   groups.forEach(group => {
@@ -202,9 +189,7 @@ function populateCategories() {
       startGroupMode(group);
     });
 
-    // Distribute cards across columns (round-robin)
-    columns[cardIndex % 3].appendChild(card);
-    cardIndex++;
+    elements.categoryGrid.appendChild(card);
   });
 
   // Add Random 20 card at the end
@@ -219,7 +204,7 @@ function populateCategories() {
     <span class="category-term-count">${allTerms.length} total</span>
     <p class="category-description">Test yourself with 20 randomly selected terms from all categories.</p>
   `;
-  columns[cardIndex % 3].appendChild(randomCard);
+  elements.categoryGrid.appendChild(randomCard);
 }
 
 // Learning Modes
@@ -382,12 +367,6 @@ function setupSwipeDetection() {
           nextCard();
         }
       }
-    } else {
-      if (Math.abs(deltaY) > minSwipeDistance) {
-        if (deltaY < 0) {
-          showScreen('home');
-        }
-      }
     }
   }
 }
@@ -401,7 +380,6 @@ function startShipQuiz() {
 function initShipQuiz() {
   const quizData = getShipDiagramQuiz();
   elements.quizInputs.innerHTML = '';
-  state.quizAnswers = {};
   elements.quizScore.textContent = '';
   elements.quizTermCount.textContent = `${quizData.labels.length} labels to identify`;
 
@@ -430,8 +408,18 @@ function normalizeAnswer(str) {
   return str
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, ' ')
-    .replace(/[()]/g, '');
+    .replace(/\s+/g, ' ');
+}
+
+// Extract accepted answers from a string like "Main course (mainsail)"
+// Returns the base name, any parenthetical alternative, and the full form without parens
+function getAcceptedAnswers(raw) {
+  const normalized = normalizeAnswer(raw);
+  const match = normalized.match(/^(.+?)\s*\((.+?)\)$/);
+  if (match) {
+    return [match[1].trim(), match[2].trim(), normalized.replace(/[()]/g, '').replace(/\s+/g, ' ')];
+  }
+  return [normalized];
 }
 
 function checkQuizAnswers() {
@@ -441,16 +429,8 @@ function checkQuizAnswers() {
 
   inputs.forEach(input => {
     const userAnswer = normalizeAnswer(input.value);
-    const correctAnswer = normalizeAnswer(input.dataset.answer);
-
-    // Also check without parenthetical content for answers like "Main course (mainsail)"
-    const correctAnswerBase = correctAnswer.split(' ').filter(word => !word.startsWith('(')).join(' ');
-
-    // Check if user answer matches either the full answer or abbreviated versions
-    const isCorrect = userAnswer === correctAnswer ||
-                      userAnswer === correctAnswerBase ||
-                      (correctAnswer.includes('mainsail') && userAnswer === 'main course') ||
-                      (correctAnswer.includes('mainsail') && userAnswer === 'mainsail');
+    const accepted = getAcceptedAnswers(input.dataset.answer);
+    const isCorrect = accepted.includes(userAnswer);
 
     input.classList.remove('correct', 'incorrect');
 
