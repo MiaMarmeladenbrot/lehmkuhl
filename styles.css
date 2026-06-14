@@ -607,6 +607,17 @@ h1 {
   cursor: not-allowed;
 }
 
+.nav-btn-finish {
+  background: #2e7d4f;
+  border-color: #2e7d4f;
+  color: white;
+}
+
+.nav-btn-finish:hover:not(:disabled) {
+  background: #256340;
+  border-color: #256340;
+}
+
 /* Swipe Animation Classes */
 .flashcard.swipe-left {
   animation: swipeLeft 0.3s ease forwards;
@@ -765,6 +776,10 @@ h1 {
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+.quiz-inputs.inputs-hidden {
+  display: none;
 }
 
 .quiz-input {

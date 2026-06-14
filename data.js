@@ -28,7 +28,7 @@ const vocabulary = {
     { term: "Mizzenmast", definition: "Aft/rear mast" },
     {
       term: "Lower mast / Standing mast",
-      definition: "Bottom section, stepped on keelson",
+      definition: "Bottom section, stepped on keelson (internal keel)",
     },
     { term: "Topmast", definition: "Extends above lower mast" },
     { term: "Topgallant mast", definition: "Extends above topmast" },
@@ -409,7 +409,7 @@ const vocabulary = {
     { term: "Bunks", definition: "Beds with foam mattresses" },
     { term: "Ship's chest", definition: "Storage for belongings" },
   ],
-  "Safety Equipment": [
+  "Footropes & Safety Lines": [
     { term: "Safety harness", definition: "Worn when going aloft" },
     {
       term: "Footropes (horses)",
@@ -467,10 +467,6 @@ const vocabulary = {
       definition: "Protected from wind or weather by something",
     },
     { term: "Quarter", definition: "Area between beam and stern" },
-    {
-      term: "Beam",
-      definition: "Widest point; perpendicular to ship's length",
-    },
     { term: "Abaft of beam", definition: "Behind midpoint" },
     { term: "Eye of the wind", definition: "Direction wind is coming from" },
     { term: "Head to wind", definition: "Bow pointing directly into wind" },
@@ -669,7 +665,7 @@ const vocabulary = {
       definition: "Last fold of sail used as bag",
     },
   ],
-  "Sail Commands - Other": [
+  "Sail Handling - Other": [
     {
       term: "Cast off",
       definition: "Release gaskets; release line; take in mooring",
@@ -710,10 +706,6 @@ const vocabulary = {
       term: "Negative fanning",
       definition: "Upper sails at sharpest angle (very close-hauled sailing)",
     },
-    {
-      term: "Brace aback",
-      definition: "Brace main mast so sails back, stopping ship",
-    },
     { term: "Haul round aft", definition: "Brace main mast around" },
     { term: "Brace round forward", definition: "Brace foremast around" },
     {
@@ -748,24 +740,6 @@ const vocabulary = {
     { term: "Put the helm to port/starboard", definition: "Turn wheel" },
     { term: "Fall away", definition: "Bear away from wind" },
   ],
-  "Crew Positions": [
-    { term: "Captain", definition: "Commanding officer" },
-    { term: "Chief Officer", definition: "Second in command" },
-    { term: "First Officer", definition: "Third in command" },
-    { term: "Chief Engineer", definition: "Head of engineering department" },
-    { term: "First Engineer", definition: "Assistant to chief engineer" },
-    { term: "Chief Steward", definition: "Head of catering/hospitality" },
-    { term: "Steward", definition: "Catering/hospitality crew" },
-    { term: "Bosun", definition: "Work supervisor" },
-    { term: "Carpenter", definition: "Shipboard woodworker" },
-    { term: "Cook", definition: "Prepares meals" },
-    { term: "Doctor", definition: "Ship's medical officer" },
-    { term: "Able seamen", definition: "Watch leaders" },
-    { term: "Ordinary seamen", definition: "Watch leader assistants" },
-    { term: "Watch-officer", definition: "Officer in charge of watch" },
-    { term: "Ship's sergeant", definition: "Primary trainee contact" },
-    { term: "Hands", definition: "Crew members" },
-  ],
   "Watch Terms": [
     { term: "Watch", definition: "Duty shift (blue, red, white watches)" },
     { term: "Helm watch", definition: "Steering duty" },
@@ -781,7 +755,30 @@ const vocabulary = {
 const categoryGroups = [
   {
     name: "The Ship",
-    categories: ["Ship Specifications", "Masts", "Spars"],
+    categories: ["Ship Specifications", "Ship Directions"],
+  },
+  {
+    name: "Ship Structure",
+    categories: [
+      "Hull Structure",
+      "Deck Structure",
+      "Main Deck Areas",
+      "Below Deck",
+      "Equipment & Features",
+    ],
+  },
+  {
+    name: "Rigging",
+    categories: [
+      "Masts",
+      "Spars",
+      "Standing Rigging",
+      "Control Lines",
+      "Dousing Lines",
+      "Line Parts & Hardware",
+      "Ropework",
+      "Footropes & Safety Lines",
+    ],
   },
   {
     name: "Sails",
@@ -796,33 +793,8 @@ const categoryGroups = [
     ],
   },
   {
-    name: "Rigging",
-    categories: [
-      "Standing Rigging",
-      "Control Lines",
-      "Dousing Lines",
-      "Line Parts & Hardware",
-      "Ropework",
-    ],
-  },
-  {
-    name: "Ship Structure",
-    categories: [
-      "Hull Structure",
-      "Deck Structure",
-      "Main Deck Areas",
-      "Below Deck",
-      "Equipment & Features",
-    ],
-  },
-  {
-    name: "Safety",
-    categories: ["Safety Equipment"],
-  },
-  {
     name: "Navigation & Direction",
     categories: [
-      "Ship Directions",
       "Wind & Water",
       "Points of Sail",
       "Wind Terms",
@@ -835,7 +807,7 @@ const categoryGroups = [
     categories: ["Sailing Concepts"],
   },
   {
-    name: "Line Commands",
+    name: "Line Handling",
     categories: [
       "Line Preparation",
       "Hauling Commands",
@@ -844,12 +816,12 @@ const categoryGroups = [
     ],
   },
   {
-    name: "Sail Commands",
+    name: "Sail Handling",
     categories: [
       "Setting Sails",
       "Dousing Sails",
       "Furling",
-      "Sail Commands - Other",
+      "Sail Handling - Other",
     ],
   },
   {
@@ -863,8 +835,8 @@ const categoryGroups = [
     ],
   },
   {
-    name: "Crew & Watches",
-    categories: ["Crew Positions", "Watch Terms"],
+    name: "Watches",
+    categories: ["Watch Terms"],
   },
 ];
 
