@@ -57,29 +57,39 @@ const categoryIcons = {
 
 // Initialize
 function init() {
-  // Event listeners
-  elements.cardBackBtn.addEventListener("click", () => showScreen("home"));
-  elements.homeBtn.addEventListener("click", () => showScreen("home"));
+  // Event listeners — "back"/"home" buttons step back through browser
+  // history (see goBack) so the browser's own back button/gesture stays in sync.
+  elements.cardBackBtn.addEventListener("click", goBack);
+  elements.homeBtn.addEventListener("click", goBack);
   elements.flashcard.addEventListener("click", flipCard);
   elements.prevBtn.addEventListener("click", prevCard);
   elements.nextBtn.addEventListener("click", () => {
     // On the last card the button acts as a "Done" button → back home
     if (state.currentIndex === state.currentCards.length - 1) {
-      showScreen("home");
+      goBack();
     } else {
       nextCard();
     }
   });
 
   // Ship quiz event listeners
-  elements.quizBackBtn.addEventListener("click", () => showScreen("home"));
-  elements.quizHomeBtn.addEventListener("click", () => showScreen("home"));
+  elements.quizBackBtn.addEventListener("click", goBack);
+  elements.quizHomeBtn.addEventListener("click", goBack);
   elements.checkAnswersBtn.addEventListener("click", checkQuizAnswers);
   elements.resetQuizBtn.addEventListener("click", resetQuiz);
   elements.toggleInputsBtn.addEventListener("click", toggleQuizInputs);
 
   // Keyboard navigation
   document.addEventListener("keydown", handleKeyboard);
+
+  // React to the browser back button / swipe-back gesture: restore whatever
+  // screen the history entry points to (defaults to home).
+  window.addEventListener("popstate", (e) => {
+    showScreen((e.state && e.state.screen) || "home");
+  });
+
+  // Anchor the initial history entry to the home screen.
+  history.replaceState({ screen: "home" }, "");
 
   // Swipe detection
   setupSwipeDetection();
@@ -88,13 +98,28 @@ function init() {
   populateCategories();
 }
 
-// Screen Navigation
+// Screen Navigation — pure DOM update, no history side effects.
 function showScreen(screenName) {
   Object.keys(screens).forEach((key) => {
     screens[key].classList.remove("active");
   });
   screens[screenName].classList.add("active");
   state.currentScreen = screenName;
+}
+
+// Open a sub-screen and push a browser history entry, so the back
+// button/gesture (popstate) can return the user to the previous screen
+// instead of leaving the page entirely.
+function navigateToScreen(screenName) {
+  showScreen(screenName);
+  history.pushState({ screen: screenName }, "");
+}
+
+// Return to the previous screen. Stepping back in history (rather than calling
+// showScreen directly) keeps our state and the browser's history aligned.
+function goBack() {
+  if (state.currentScreen === "home") return;
+  history.back();
 }
 
 // Populate Category Grid
@@ -260,7 +285,7 @@ function startRandomMode() {
 
 // Card Screen
 function showCardScreen() {
-  showScreen("card");
+  navigateToScreen("card");
   updateCard();
 }
 
@@ -334,7 +359,7 @@ function animateCardTransition(direction, callback) {
 function handleKeyboard(e) {
   // Handle Escape to go home from any screen
   if (e.key === "Escape" && state.currentScreen !== "home") {
-    showScreen("home");
+    goBack();
     return;
   }
 
@@ -404,7 +429,7 @@ function setupSwipeDetection() {
 // Ship Diagram Quiz Functions
 function startShipQuiz() {
   initShipQuiz();
-  showScreen("shipQuiz");
+  navigateToScreen("shipQuiz");
 }
 
 function initShipQuiz() {
